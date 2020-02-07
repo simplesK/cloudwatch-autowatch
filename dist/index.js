@@ -230,7 +230,7 @@ class Main {
         return [
             {
                 ActionsEnabled: true,
-                AlarmName: "SetfiveCloudAutoWatch: CPU utilization over 95% (" + cluster.ClusterIdentifier + ")",
+                AlarmName: "CloudAutoWatch: CPU utilization over 95% (" + cluster.ClusterIdentifier + ")",
                 ComparisonOperator: "GreaterThanThreshold",
                 MetricName: "CPUUtilization",
                 Namespace: "AWS/Redshift",
@@ -243,7 +243,7 @@ class Main {
             },
             {
                 ActionsEnabled: true,
-                AlarmName: "SetfiveCloudAutoWatch: Health status is 0 (" + cluster.ClusterIdentifier + ")",
+                AlarmName: "CloudAutoWatch: Health status is 0 (" + cluster.ClusterIdentifier + ")",
                 ComparisonOperator: "LessThanOrEqualToThreshold",
                 MetricName: "HealthStatus",
                 Namespace: "AWS/Redshift",
@@ -256,7 +256,7 @@ class Main {
             },
             {
                 ActionsEnabled: true,
-                AlarmName: "SetfiveCloudAutoWatch: Disk space over 95% (" + cluster.ClusterIdentifier + ")",
+                AlarmName: "CloudAutoWatch: Disk space over 95% (" + cluster.ClusterIdentifier + ")",
                 ComparisonOperator: "GreaterThanThreshold",
                 MetricName: "PercentageDiskSpaceUsed",
                 Namespace: "AWS/Redshift",
@@ -279,9 +279,9 @@ class Main {
                     return resolve([]);
                 }
                 const targetClusters = _.reject(results.Clusters, f => {
-                    return _.find(f.Tags, f => f.Key == "SetfiveCloudAutoWatch" && f.Value);
+                    return _.find(f.Tags, f => f.Key == "CloudAutoWatch" && f.Value);
                 });
-                this.log("Found " + targetClusters.length + " Redshift clusters without SetfiveCloudAutoWatch tag.");
+                this.log("Found " + targetClusters.length + " Redshift clusters without CloudAutoWatch tag.");
                 targetClusters.forEach(cluster => {
                     this.log("Identifier: " + cluster.ClusterIdentifier);
                 });
@@ -393,7 +393,7 @@ class Main {
         return [
             {
                 ActionsEnabled: true,
-                AlarmName: "SetfiveCloudAutoWatch: Status check failed (" + f.InstanceId + ")",
+                AlarmName: "CloudAutoWatch: Status check failed (" + f.InstanceId + ")",
                 ComparisonOperator: "GreaterThanThreshold",
                 MetricName: "StatusCheckFailed",
                 Namespace: "AWS/EC2",
@@ -406,7 +406,7 @@ class Main {
             },
             {
                 ActionsEnabled: true,
-                AlarmName: "SetfiveCloudAutoWatch: CPU utilization over 95% (" + f.InstanceId + ")",
+                AlarmName: "CloudAutoWatch: CPU utilization over 95% (" + f.InstanceId + ")",
                 ComparisonOperator: "GreaterThanThreshold",
                 MetricName: "CPUUtilization",
                 Namespace: "AWS/EC2",
@@ -419,7 +419,7 @@ class Main {
             },
             {
                 ActionsEnabled: true,
-                AlarmName: "SetfiveCloudAutoWatch: Network I/O low (" + f.InstanceId + ")",
+                AlarmName: "CloudAutoWatch: Network I/O low (" + f.InstanceId + ")",
                 ComparisonOperator: "LessThanThreshold",
                 MetricName: "NetworkPacketsOut",
                 Namespace: "AWS/EC2",
@@ -456,9 +456,9 @@ class Main {
                 }
                 const instances = _.flatten(data.Reservations.map(f => f.Instances ? f.Instances : []));
                 const result = _.reject(instances, f => {
-                    return _.find(f.Tags, f => f.Key == "SetfiveCloudAutoWatch" && f.Value);
+                    return _.find(f.Tags, f => f.Key == "CloudAutoWatch" && f.Value);
                 });
-                this.log("Found " + result.length + " EC instances without SetfiveCloudAutoWatch tag.");
+                this.log("Found " + result.length + " EC instances without CloudAutoWatch tag.");
                 result.forEach(instance => {
                     this.log("ID: " + instance.InstanceId);
                 });
@@ -473,7 +473,7 @@ class Main {
         return [
             {
                 ActionsEnabled: true,
-                AlarmName: "SetfiveCloudAutoWatch: CPU utilization over 95% (" + f.DBInstanceIdentifier + ")",
+                AlarmName: "CloudAutoWatch: CPU utilization over 95% (" + f.DBInstanceIdentifier + ")",
                 ComparisonOperator: "GreaterThanThreshold",
                 MetricName: "CPUUtilization",
                 Namespace: "AWS/RDS",
@@ -486,7 +486,7 @@ class Main {
             },
             {
                 ActionsEnabled: true,
-                AlarmName: "SetfiveCloudAutoWatch: Storage space less than 1GB (" + f.DBInstanceIdentifier + ")",
+                AlarmName: "CloudAutoWatch: Storage space less than 1GB (" + f.DBInstanceIdentifier + ")",
                 ComparisonOperator: "LessThanThreshold",
                 MetricName: "FreeStorageSpace",
                 Namespace: "AWS/RDS",
@@ -499,7 +499,7 @@ class Main {
             },
             {
                 ActionsEnabled: true,
-                AlarmName: "SetfiveCloudAutoWatch: Query depth over 100 (" + f.DBInstanceIdentifier + ")",
+                AlarmName: "CloudAutoWatch: Query depth over 100 (" + f.DBInstanceIdentifier + ")",
                 ComparisonOperator: "GreaterThanThreshold",
                 MetricName: "DiskQueueDepth",
                 Namespace: "AWS/RDS",
@@ -561,9 +561,9 @@ class Main {
                         return { Instance: item, Tags: tagResult[index] };
                     });
                     const instances = _.reject(instancesAndTags, f => {
-                        return _.find(f.Tags, fx => fx.Key == "SetfiveCloudAutoWatch" && fx.Value);
+                        return _.find(f.Tags, fx => fx.Key == "CloudAutoWatch" && fx.Value);
                     });
-                    this.log("Found " + instances.length + " without SetfiveCloudAutoWatch tag.");
+                    this.log("Found " + instances.length + " without CloudAutoWatch tag.");
                     instances.forEach(instance => {
                         this.log("ID: " + instance.Instance.DBInstanceArn);
                     });
@@ -605,7 +605,7 @@ class Main {
         const cloudwatchDimension = arn.replace("loadbalancer/", "");
         const alarms = [
             { ActionsEnabled: true,
-                AlarmName: "SetfiveCloudAutoWatch: 500s over 0 for 5 minutes (" + cloudwatchDimension + ")",
+                AlarmName: "CloudAutoWatch: 500s over 0 for 5 minutes (" + cloudwatchDimension + ")",
                 ComparisonOperator: "GreaterThanThreshold",
                 MetricName: "HTTPCode_Target_5XX_Count",
                 Namespace: "AWS/ApplicationELB",
@@ -621,7 +621,7 @@ class Main {
         if (maxResponse) {
             alarms.push({
                 ActionsEnabled: true,
-                AlarmName: "SetfiveCloudAutoWatch: Response time over 200% of 24hr max for 5 minutes (" + cloudwatchDimension + ")",
+                AlarmName: "CloudAutoWatch: Response time over 200% of 24hr max for 5 minutes (" + cloudwatchDimension + ")",
                 ComparisonOperator: "GreaterThanThreshold",
                 MetricName: "TargetResponseTime",
                 Namespace: "AWS/ApplicationELB",
@@ -637,7 +637,7 @@ class Main {
         if (maxRequest) {
             alarms.push({
                 ActionsEnabled: true,
-                AlarmName: "SetfiveCloudAutoWatch: Requests over 200% of 24hr max for 5 minutes (" + cloudwatchDimension + ")",
+                AlarmName: "CloudAutoWatch: Requests over 200% of 24hr max for 5 minutes (" + cloudwatchDimension + ")",
                 ComparisonOperator: "GreaterThanThreshold",
                 MetricName: "TargetResponseTime",
                 Namespace: "AWS/ApplicationELB",
@@ -738,9 +738,9 @@ class Main {
                         if (!lbTags) {
                             return false;
                         }
-                        return _.find(lbTags.Tags, fx => fx.Key == "SetfiveCloudAutoWatch" && fx.Value);
+                        return _.find(lbTags.Tags, fx => fx.Key == "CloudAutoWatch" && fx.Value);
                     });
-                    this.log("Found " + targetInstances.length + " without SetfiveCloudAutoWatch tag.");
+                    this.log("Found " + targetInstances.length + " without CloudAutoWatch tag.");
                     this.getELBStatisticsForLoadbalancers(targetInstances)
                         .then(instanceWithStats => {
                         resolve(instanceWithStats);
@@ -752,7 +752,7 @@ class Main {
         });
     }
     getCloudWatchTag() {
-        return [{ Key: "SetfiveCloudAutoWatch", Value: moment().toISOString() }];
+        return [{ Key: "CloudAutoWatch", Value: moment().toISOString() }];
     }
     prettyPrintAlarms(alarms) {
         alarms.forEach(alarm => {
