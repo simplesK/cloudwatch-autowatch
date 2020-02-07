@@ -7,7 +7,7 @@ class Config {
             return { help: true, addImmediately: false, action: "",
                 region: "", notificationArn: "", input: "", output: "" };
         }
-        const argv = require("minimist")(argvs, { "boolean": ["help", "addImmediately"], "default": { "region": "us-east-1", "output": "alarms.json" } });
+        const argv = require("minimist")(argvs, { "boolean": ["help", "addImmediately"], "default": { "region": "ap-northeast-2", "output": "alarms.json" } });
         return argv;
     }
     static outputHelp() {
